@@ -1,9 +1,7 @@
 package com.anhkiet.cdio4_api.controller
 
-import com.anhkiet.cdio4_api.helper.JsonResponseType
-import com.anhkiet.cdio4_api.helper.ResponseBuilder
-import com.anhkiet.cdio4_api.helper.response
-import com.anhkiet.cdio4_api.helper.responseCustom
+import com.anhkiet.cdio4_api.helper.*
+import com.anhkiet.cdio4_api.helper.responseHelper.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -12,11 +10,18 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")
 class AuthController {
     @GetMapping("/demo")
-    fun demo(): JsonResponseType {
-        return ResponseBuilder(
-            ResponseBuilder.OK,
-            "OK",
-            "message" to "this is demo api"
-        ).toResponse()
+    fun demo(input: String) = response {
+        content(
+            Status.OK,
+            "ok",
+            "demo" to objectOf(
+                "text1" to "This is demo api 1",
+                "text2" to "This is demo api 2",
+                "text" to listOf(
+                    "Hello",
+                    "Xin chao"
+                )
+            )
+        )
     }
 }
