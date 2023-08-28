@@ -4,6 +4,7 @@ import com.anhkiet.cdio4_api.dto.TaiKhoanDTO
 import com.anhkiet.cdio4_api.helper.*
 import com.anhkiet.cdio4_api.helper.responseHelper.*
 import com.anhkiet.cdio4_api.model.LoginModel
+import com.anhkiet.cdio4_api.model.RegisterModel
 import com.anhkiet.cdio4_api.service.TaiKhoanService
 import com.anhkiet.cdio4_api.service.TokenService
 import com.nimbusds.jose.Payload
@@ -46,18 +47,19 @@ class AuthController(
     }
 
     @PostMapping("/register")
-    fun register(@RequestBody payload: LoginModel) = response {
+    fun register(@RequestBody payload: RegisterModel) = response {
         when (taiKhoanService.existsByUsername(payload.username)) {
             true -> content(
                 HttpStatus.UNAUTHORIZED,
                 "register failure",
-                "reason" to "Email already exists",
+                "reason" to "Username already exists",
             )
 
             else -> {
                 val taikhoan = taiKhoanService.createTaiKhoan(
                     TaiKhoanDTO(
                         username = payload.username,
+                        email = payload.email,
                         password = BCrypt.hashpw(payload.password, BCrypt.gensalt()),
                         position = "customer"
                     )
@@ -71,5 +73,4 @@ class AuthController(
             }
         }
     }
-
 }
