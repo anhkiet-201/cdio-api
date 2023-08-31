@@ -5,11 +5,12 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.OneToMany
+import jakarta.persistence.ManyToMany
+import java.math.BigDecimal
 
 
 @Entity
-class Category {
+class HouseType {
 
     @Id
     @Column(
@@ -17,18 +18,18 @@ class Category {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var categoryId: Int? = null
+    var houseTypeId: Int? = null
 
-    @Column(length = 100)
-    var categoryName: String? = null
+    @Column(length = 50)
+    var typeName: String? = null
 
     @Column(
-        name = "\"description\"",
-        columnDefinition = "longtext"
+        precision = 20,
+        scale = 5
     )
-    var description: String? = null
+    var price: BigDecimal? = null
 
-    @OneToMany(mappedBy = "category")
-    var categoryHouses: MutableSet<House>? = null
+    @ManyToMany(mappedBy = "houseTypeDetailHouseTypes")
+    var houseTypeDetailHouseInfos: MutableSet<HouseInfo>? = null
 
 }
