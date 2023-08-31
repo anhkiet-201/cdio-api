@@ -1,6 +1,7 @@
 package com.anhkiet.cdio4_api.service
 
-import com.anhkiet.cdio4_api.entities.TaiKhoan
+import com.anhkiet.cdio4_api.dto.AccountDTO
+import com.anhkiet.cdio4_api.entities.Account
 import org.springframework.security.oauth2.jwt.JwsHeader
 import org.springframework.security.oauth2.jwt.JwtClaimsSet
 import org.springframework.security.oauth2.jwt.JwtDecoder
@@ -15,27 +16,26 @@ import java.time.temporal.ChronoUnit
 class TokenService(
     private val jwtDecoder: JwtDecoder,
     private val jwtEncoder: JwtEncoder,
-    private val taiKhoanService: TaiKhoanService
+    private val accountService: AccountService
 ) {
 
-    fun createToken(username: String, position: String): String {
+    fun createToken(email: String, role: String): String {
         val jwsHeader = JwsHeader.with { "HS256" }.build()
         val claims = JwtClaimsSet.builder()
             .issuedAt(Instant.now())
             .expiresAt(Instant.now().plus(30L, ChronoUnit.DAYS))
-            .subject(username)
-            .claim("username", username)
-            .claim("position",position)
+            .subject(email)
+            .claim("email", email)
+            .claim("position",role)
             .build()
         return jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).tokenValue
     }
 
-    fun parseToken(token: String): TaiKhoan? {
+    fun parseToken(token: String): AccountDTO? {
         return try {
             val jwt = jwtDecoder.decode(token)
-            val username = jwt.claims["username"] as String
-            print(username)
-            return taiKhoanService.findByUserName(username)
+            val email = jwt.claims["email"] as String
+            return accountService.findByEmail(email)
         } catch (e: Exception) {
             null
         }

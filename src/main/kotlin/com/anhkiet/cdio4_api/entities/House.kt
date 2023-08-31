@@ -7,10 +7,10 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToMany
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import java.math.BigDecimal
-import java.time.OffsetDateTime
 
 
 @Entity
@@ -22,62 +22,58 @@ class House {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var createBy: Int? = null
-
-    @Column(nullable = false)
-    var idhouse: Int? = null
-
-    @Column(length = 50)
-    var code: String? = null
-
-    @Column(length = 100)
-    var name: String? = null
-
-    @Column(length = 3000)
-    var sumary: String? = null
+    var houseId: Int = -1
 
     @Column
-    var views: Int? = null
-
-    @Column(length = 50)
-    var type: String? = null
-
-    @Column(length = 50)
-    var idmap: String? = null
-
-    @Column
-    var bedRoom: Int? = null
-
-    @Column
-    var area: Int? = null
+    var displayName: String = ""
 
     @Column(
-        precision = 30,
+        name = "\"description\"",
+        columnDefinition = "longtext"
+    )
+    var description: String? = null
+
+    @Column(
+        precision = 12,
         scale = 0
     )
-    var price: BigDecimal? = null
+    var createTime: BigDecimal? = null
 
-    @Column
-    var state: Int? = null
-
-    @Column
-    var createTime: OffsetDateTime? = null
-
-    @OneToMany(mappedBy = "idhouse")
-    var idhouseAddressHouses: MutableSet<AddressHouse>? = null
+    @Column(
+        nullable = false,
+        columnDefinition = "longtext"
+    )
+    var address: String? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "iddu_an_id")
-    var idduAn: DuAn? = null
+    @JoinColumn(
+        name = "email_id",
+        nullable = false
+    )
+    var email: Account? = null
+
+    @ManyToMany(mappedBy = "favoriteHouses")
+    var favoriteAccounts: MutableSet<Account>? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idtai_khoan_id")
-    var idtaiKhoan: TaiKhoan? = null
+    @JoinColumn(
+        name = "project_id",
+        nullable = false
+    )
+    var project: Project? = null
 
-    @OneToMany(mappedBy = "idhouse")
-    var idhouseImageHouses: MutableSet<ImageHouse>? = null
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "category_id",
+        nullable = false
+    )
+    var category: Category? = null
 
-    @OneToMany(mappedBy = "idhouse")
-    var idhouseInfoHouses: MutableSet<InfoHouse>? = null
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "infor_id",
+        nullable = false
+    )
+    var infor: HouseInfo? = null
 
 }

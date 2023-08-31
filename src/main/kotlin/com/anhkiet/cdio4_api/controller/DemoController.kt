@@ -14,8 +14,6 @@ class DemoController {
     @GetMapping("/demo")
     fun demo(input: String) = response {
         content(
-            HttpStatus.OK,
-            "ok",
             "demo" to objectOf(
                 "text1" to "This is demo api 1",
                 "text2" to "This is demo api 2",

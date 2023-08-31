@@ -8,11 +8,11 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
-import java.time.OffsetDateTime
+import jakarta.persistence.OneToMany
 
 
 @Entity
-class TinTuc {
+class Project {
 
     @Id
     @Column(
@@ -20,25 +20,37 @@ class TinTuc {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var idtinTuc: Int? = null
+    var projectId: Int = -1
+
+    @Column
+    var projectName: String = ""
+
+    @Column(
+        nullable = false,
+        length = 20
+    )
+    var projectStatus: String = ""
+
+    @Column
+    var projectAddress: String? = null
 
     @Column(length = 100)
-    var title: String? = null
+    var contactInfo: String? = null
 
     @Column
-    var createTime: OffsetDateTime? = null
+    var projectThumbNailUrl: String? = null
 
     @Column(columnDefinition = "longtext")
-    var contents: String? = null
+    var projectDescription: String? = null
 
-    @Column(length = 225)
-    var avatar: String? = null
-
-    @Column
-    var state: Int? = null
+    @OneToMany(mappedBy = "project")
+    var projectHouses: MutableSet<House>? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_by_id")
-    var createBy: TaiKhoan? = null
+    @JoinColumn(
+        name = "investor_id",
+        nullable = false
+    )
+    var investor: Investor? = null
 
 }

@@ -1,14 +1,12 @@
 package com.anhkiet.cdio4_api.controller
 
-import com.anhkiet.cdio4_api.dto.TaiKhoanDTO
+import com.anhkiet.cdio4_api.dto.AccountDTO
 import com.anhkiet.cdio4_api.helper.*
 import com.anhkiet.cdio4_api.helper.responseHelper.*
 import com.anhkiet.cdio4_api.model.LoginModel
-import com.anhkiet.cdio4_api.service.TaiKhoanService
+import com.anhkiet.cdio4_api.model.RegisterModel
+import com.anhkiet.cdio4_api.service.AccountService
 import com.anhkiet.cdio4_api.service.TokenService
-import com.nimbusds.jose.Payload
-import org.springframework.http.HttpStatus
-import org.springframework.http.server.ServerHttpAsyncRequestControl
 import org.springframework.security.crypto.bcrypt.BCrypt
 import org.springframework.web.bind.annotation.*
 
@@ -16,60 +14,53 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api")
 class AuthController(
     private val tokenService: TokenService,
-    private val taiKhoanService: TaiKhoanService
+    private val accountService: AccountService
 ) {
     @PostMapping("/login")
     fun login(@RequestBody payload: LoginModel) = response {
-        when (val taiKhoan = taiKhoanService.findByUserName(payload.username)) {
+        when (val account = accountService.findByEmail(payload.email)) {
             null -> content(
-                HttpStatus.NOT_FOUND,
-                "login failure",
+                "message" to "login failure",
                 "reason" to "Username not match!"
             )
 
-            else -> if (!BCrypt.checkpw(payload.password, taiKhoan.password))
+            else -> if (!BCrypt.checkpw(payload.password, account.password))
                 content(
-                    HttpStatus.UNAUTHORIZED,
-                    "login failure",
+                    "message" to "login failure",
                     "reason" to "Password not match!"
                 )
             else {
-                print(TaiKhoanDTO.fromEntity(taiKhoan))
                 content(
-                    HttpStatus.OK,
-                    "ok",
-                    "token" to tokenService.createToken(taiKhoan.username!!, taiKhoan.position!!),
-                    "user" to TaiKhoanDTO.fromEntity(taiKhoan)
+                    "message" to "login successful",
+                    "token" to tokenService.createToken(account.email, account.role!!),
+                    "user" to account
                 )
             }
         }
     }
 
     @PostMapping("/register")
-    fun register(@RequestBody payload: LoginModel) = response {
-        when (taiKhoanService.existsByUsername(payload.username)) {
+    fun register(@RequestBody payload: RegisterModel) = response {
+        when (accountService.existsByEmail(payload.email)) {
             true -> content(
-                HttpStatus.UNAUTHORIZED,
-                "register failure",
-                "reason" to "Email already exists",
+                "message" to "register failure",
+                "reason" to "Username already exists",
             )
 
             else -> {
-                val taikhoan = taiKhoanService.createTaiKhoan(
-                    TaiKhoanDTO(
-                        username = payload.username,
+                val account = accountService.create(
+                    AccountDTO(
+                        email = payload.email,
                         password = BCrypt.hashpw(payload.password, BCrypt.gensalt()),
-                        position = "customer"
+                        role = "customer"
                     )
                 )
                 content(
-                    HttpStatus.OK,
-                    "register successful!",
-                    "token" to tokenService.createToken(taikhoan.username!!, taikhoan.position!!),
-                    "account" to TaiKhoanDTO.fromEntity(taikhoan)
+                    "message" to "register successful!",
+                    "token" to tokenService.createToken(account.email, account.role!!),
+                    "account" to account
                 )
             }
         }
     }
-
 }

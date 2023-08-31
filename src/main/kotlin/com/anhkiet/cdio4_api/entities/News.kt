@@ -8,10 +8,11 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import java.math.BigDecimal
 
 
 @Entity
-class ImageDuAn {
+class News {
 
     @Id
     @Column(
@@ -19,16 +20,28 @@ class ImageDuAn {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var idimageDuAn: Int? = null
+    var newsId: Int = -1
 
-    @Column(length = 500)
-    var link: String? = null
+    @Column(
+        precision = 12,
+        scale = 0
+    )
+    var createTime: BigDecimal = BigDecimal(0)
 
-    @Column(name = "\"rank\"")
-    var rank: Int? = null
+    @Column(nullable = false)
+    var title: String = ""
+
+    @Column(
+        nullable = false,
+        columnDefinition = "longtext"
+    )
+    var content: String = ""
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "iddu_an_id")
-    var idduAn: DuAn? = null
+    @JoinColumn(
+        name = "email",
+        nullable = false
+    )
+    var account: Account? = null
 
 }

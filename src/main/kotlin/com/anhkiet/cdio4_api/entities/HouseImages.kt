@@ -9,7 +9,7 @@ import jakarta.persistence.OneToMany
 
 
 @Entity
-class Investor {
+class HouseImages {
 
     @Id
     @Column(
@@ -17,24 +17,12 @@ class Investor {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var investorId: Int = -1
+    var houseImageId: Int = 0
 
-    @Column
-    var investorName: String = ""
+    @Column(columnDefinition = "longtext")
+    var imageUrl: String = ""
 
-    @Column
-    var logoUrl: String? = null
-
-    @Column(
-        name = "\"description\"",
-        columnDefinition = "longtext"
-    )
-    var description: String? = null
-
-    @Column
-    var isActive: Boolean = true
-
-    @OneToMany(mappedBy = "investor")
-    var investorProjects: MutableSet<Project>? = null
+    @OneToMany(mappedBy = "houseImage")
+    var houseImageHouseInfos: MutableSet<HouseInfo>? = null
 
 }

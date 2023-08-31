@@ -1,6 +1,7 @@
 package com.anhkiet.cdio4_api.repositories
 
-import com.anhkiet.cdio4_api.entities.TinTuc
+import com.anhkiet.cdio4_api.entities.News
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface TinTucRepository : JpaRepository<TinTuc, Int>
+
+interface NewsRepository : JpaRepository<News, Int>

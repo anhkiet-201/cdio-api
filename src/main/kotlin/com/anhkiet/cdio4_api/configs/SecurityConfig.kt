@@ -1,5 +1,3 @@
-@file:Suppress("UNREACHABLE_CODE")
-
 package com.anhkiet.cdio4_api.configs
 
 import com.anhkiet.cdio4_api.service.TokenService
@@ -12,27 +10,24 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthenticationToken
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
-import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException
-import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthenticationToken
-import java.time.LocalDateTime
 import java.util.*
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig (
+class SecurityConfig(
     private val tokenService: TokenService,
 ) {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         // Define public and private routes
         http.authorizeHttpRequests {
-            it.requestMatchers(HttpMethod.POST, "/api/login").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
-                .requestMatchers("/api/**").authenticated()
+            it.requestMatchers("/api/auth/**").authenticated()
                 .anyRequest().permitAll()
         }
         // Configure JWT

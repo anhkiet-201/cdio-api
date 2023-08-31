@@ -17,21 +17,18 @@ class Category {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var idcategory: Int? = null
+    var categoryId: Int = -1
 
-    @Column(name = "\"rank\"")
-    var rank: Int? = null
+    @Column(length = 100)
+    var categoryName: String = ""
 
-    @Column(length = 50)
-    var name: String? = null
+    @Column(
+        name = "\"description\"",
+        columnDefinition = "longtext"
+    )
+    var description: String? = null
 
-    @Column
-    var active: Boolean? = null
-
-    @Column(length = 50)
-    var state: String? = null
-
-    @OneToMany(mappedBy = "idcategory")
-    var idcategoryKeys: MutableSet<Key>? = null
+    @OneToMany(mappedBy = "category")
+    var categoryHouses: MutableSet<House>? = null
 
 }
