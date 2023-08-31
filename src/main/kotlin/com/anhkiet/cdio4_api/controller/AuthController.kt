@@ -21,14 +21,14 @@ class AuthController(
     fun login(@RequestBody payload: LoginModel) = response {
         when (val account = accountService.findByEmail(payload.email)) {
             null -> content(
-                HttpStatus.NOT_FOUND,
+                HttpStatus.OK,
                 "login failure",
                 "reason" to "Username not match!"
             )
 
             else -> if (!BCrypt.checkpw(payload.password, account.password))
                 content(
-                    HttpStatus.UNAUTHORIZED,
+                    HttpStatus.OK,
                     "login failure",
                     "reason" to "Password not match!"
                 )
@@ -48,7 +48,7 @@ class AuthController(
     fun register(@RequestBody payload: RegisterModel) = response {
         when (accountService.existsByEmail(payload.email)) {
             true -> content(
-                HttpStatus.UNAUTHORIZED,
+                HttpStatus.OK,
                 "register failure",
                 "reason" to "Username already exists",
             )
