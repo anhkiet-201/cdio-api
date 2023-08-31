@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import java.math.BigDecimal
 
 data class AccountDTO(
-    val email: String? = null,
+    val email: String,
 
     @JsonIgnore
     val password: String? = null,
@@ -26,12 +26,30 @@ data class AccountDTO(
 
     val description: String? = null,
 
+    @JsonIgnore
     val houseOwner: List<House> = emptyList(),
 
+    @JsonIgnore
     val favoriteHouses: List<House> = emptyList(),
 
+    @JsonIgnore
     val houseNews: List<News> = emptyList()
 ) {
+
+    constructor(account: Account) : this(
+        email = account.email ?: "",
+        password = account.password,
+        avatarUrl = account.avatarUrl,
+        fullName = account.fullName,
+        birthday = account.birthday,
+        phoneNumber = account.phoneNumber,
+        address = account.address,
+        role = account.role,
+        description = account.description,
+        houseOwner = account.emailHouses?.toList() ?: emptyList(),
+        favoriteHouses = account.favoriteHouses?.toList() ?: emptyList(),
+        houseNews = account.houseNews?.toList() ?: emptyList(),
+    )
 
     fun toEntity(): Account {
         val account = Account()
@@ -45,22 +63,5 @@ data class AccountDTO(
         account.role = role
         account.description = description
         return account
-    }
-
-    companion object {
-        fun fromEntity(account: Account): AccountDTO = AccountDTO(
-            email = account.email,
-            password = account.password,
-            avatarUrl =  account.avatarUrl,
-            fullName = account.fullName,
-            birthday = account.birthday,
-            phoneNumber = account.phoneNumber,
-            address = account.address,
-            role = account.role,
-            description = account.description,
-            houseOwner = account.emailHouses?.toList() ?: emptyList(),
-            favoriteHouses = account.favoriteHouses?.toList() ?: emptyList(),
-            houseNews = account.houseNews?.toList() ?: emptyList(),
-            )
     }
 }
