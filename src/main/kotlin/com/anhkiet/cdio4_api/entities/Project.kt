@@ -20,16 +20,16 @@ class Project {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var projectId: Int? = null
+    var projectId: Int = -1
 
     @Column
-    var projectName: String? = null
+    var projectName: String = ""
 
     @Column(
         nullable = false,
         length = 20
     )
-    var projectStatus: String? = null
+    var projectStatus: String = ""
 
     @Column
     var projectAddress: String? = null

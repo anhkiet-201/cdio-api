@@ -1,11 +1,6 @@
 package com.anhkiet.cdio4_api.entities
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToMany
+import jakarta.persistence.*
 import java.math.BigDecimal
 
 
@@ -18,16 +13,16 @@ class HouseType {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var houseTypeId: Int? = null
+    var houseTypeId: Int = -1
 
     @Column(length = 50)
-    var typeName: String? = null
+    var typeName: String = ""
 
     @Column(
         precision = 20,
         scale = 5
     )
-    var price: BigDecimal? = null
+    var price: BigDecimal = BigDecimal(0)
 
     @ManyToMany(mappedBy = "houseTypeDetailHouseTypes")
     var houseTypeDetailHouseInfos: MutableSet<HouseInfo>? = null

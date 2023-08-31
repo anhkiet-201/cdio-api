@@ -22,7 +22,7 @@ class HouseInfo {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var inforId: Int? = null
+    var inforId: Int = -1
 
     @Column
     var thumbNailUrl: String? = null

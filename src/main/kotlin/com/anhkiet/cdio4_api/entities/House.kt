@@ -22,10 +22,10 @@ class House {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var houseId: Int? = null
+    var houseId: Int = -1
 
     @Column
-    var displayName: String? = null
+    var displayName: String = ""
 
     @Column(
         name = "\"description\"",

@@ -16,30 +16,20 @@ fun objectOf(vararg params: PairType): Map<String, Any> {
     return mapOf(*params)
 }
 
-fun content(status: HttpStatus, message: String, vararg params: PairType): JsonBuilder {
-    var map: Map<String, Any> = mapOf(
+fun content(status: HttpStatus, vararg params: PairType): JsonBuilder {
+    val map: Map<String, Any> = mapOf(
         "timestamp" to Date().time,
-        "status" to status.value(),
-        "message" to message
+        "status_code" to status.value(),
+        "status_description" to status.reasonPhrase,
+        "data" to objectOf(*params)
     )
-    map = map.plus(params)
     return JsonBuilder(
         status.value(),
         map
     )
 }
 
-fun content(status: HttpStatus, vararg params: PairType): JsonBuilder {
-    var map: Map<String, Any> = mapOf(
-        "timestamp" to Date().time,
-        "status" to status.value(),
-    )
-    map = map.plus(params)
-    return JsonBuilder(
-        status.value(),
-        map
-    )
-}
+fun content(vararg params: PairType): JsonBuilder = content(HttpStatus.OK, *params)
 
 inline fun <T> T.response(contentBuilder: (T) -> JsonBuilder): JsonResponseType {
     val builder = contentBuilder.invoke(this)

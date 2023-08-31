@@ -20,22 +20,22 @@ class News {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var newsId: Int? = null
+    var newsId: Int = -1
 
     @Column(
         precision = 12,
         scale = 0
     )
-    var createTime: BigDecimal? = null
+    var createTime: BigDecimal = BigDecimal(0)
 
     @Column(nullable = false)
-    var title: String? = null
+    var title: String = ""
 
     @Column(
         nullable = false,
         columnDefinition = "longtext"
     )
-    var content: String? = null
+    var content: String = ""
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(

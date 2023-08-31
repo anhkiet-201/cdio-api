@@ -17,10 +17,10 @@ class HouseImages {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var houseImageId: Int? = null
+    var houseImageId: Int = 0
 
     @Column(columnDefinition = "longtext")
-    var imageUrl: String? = null
+    var imageUrl: String = ""
 
     @OneToMany(mappedBy = "houseImage")
     var houseImageHouseInfos: MutableSet<HouseInfo>? = null

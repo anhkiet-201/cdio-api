@@ -7,9 +7,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class AccountService(
-    private val respo: AccountRepository
+    private val repo: AccountRepository
 ) {
-    fun findByEmail(email: String): Account? = respo.findByEmail(email)
-    fun create(account: AccountDTO): Account = respo.save(account.toEntity())
-    fun existsByEmail(username: String): Boolean = respo.existsByEmail(username)
+    fun findByEmail(email: String): AccountDTO? = when (val account = repo.findByEmail(email)) {
+        null -> null
+        else -> AccountDTO(account)
+    }
+    fun create(account: AccountDTO): AccountDTO = AccountDTO(repo.save(account.toEntity()))
+    fun existsByEmail(username: String): Boolean = repo.existsByEmail(username)
 }

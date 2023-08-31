@@ -17,10 +17,10 @@ class Investor {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var investorId: Int? = null
+    var investorId: Int = -1
 
     @Column
-    var investorName: String? = null
+    var investorName: String = ""
 
     @Column
     var logoUrl: String? = null
@@ -32,7 +32,7 @@ class Investor {
     var description: String? = null
 
     @Column
-    var isActive: Boolean? = null
+    var isActive: Boolean = true
 
     @OneToMany(mappedBy = "investor")
     var investorProjects: MutableSet<Project>? = null

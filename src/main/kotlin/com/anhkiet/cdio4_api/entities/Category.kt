@@ -17,10 +17,10 @@ class Category {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var categoryId: Int? = null
+    var categoryId: Int = -1
 
     @Column(length = 100)
-    var categoryName: String? = null
+    var categoryName: String = ""
 
     @Column(
         name = "\"description\"",
