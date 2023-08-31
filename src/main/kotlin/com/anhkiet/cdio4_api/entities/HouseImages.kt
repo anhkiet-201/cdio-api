@@ -9,7 +9,7 @@ import jakarta.persistence.OneToMany
 
 
 @Entity
-class Category {
+class HouseImages {
 
     @Id
     @Column(
@@ -17,18 +17,12 @@ class Category {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var categoryId: Int? = null
+    var houseImageId: Int? = null
 
-    @Column(length = 100)
-    var categoryName: String? = null
+    @Column(columnDefinition = "longtext")
+    var imageUrl: String? = null
 
-    @Column(
-        name = "\"description\"",
-        columnDefinition = "longtext"
-    )
-    var description: String? = null
-
-    @OneToMany(mappedBy = "category")
-    var categoryHouses: MutableSet<House>? = null
+    @OneToMany(mappedBy = "houseImage")
+    var houseImageHouseInfos: MutableSet<HouseInfo>? = null
 
 }

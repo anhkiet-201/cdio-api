@@ -17,21 +17,24 @@ class Investor {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var idinvestor: Int? = null
-
-    @Column(length = 50)
-    var name: String? = null
-
-    @Column(length = 500)
-    var logo: String? = null
-
-    @Column(length = 1000)
-    var sumary: String? = null
+    var investorId: Int? = null
 
     @Column
-    var state: Int? = null
+    var investorName: String? = null
 
-    @OneToMany(mappedBy = "idinvestor")
-    var idinvestorDuAns: MutableSet<DuAn>? = null
+    @Column
+    var logoUrl: String? = null
+
+    @Column(
+        name = "\"description\"",
+        columnDefinition = "longtext"
+    )
+    var description: String? = null
+
+    @Column
+    var isActive: Boolean? = null
+
+    @OneToMany(mappedBy = "investor")
+    var investorProjects: MutableSet<Project>? = null
 
 }
