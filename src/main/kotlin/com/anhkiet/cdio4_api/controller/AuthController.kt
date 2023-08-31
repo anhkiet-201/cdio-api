@@ -7,7 +7,6 @@ import com.anhkiet.cdio4_api.model.LoginModel
 import com.anhkiet.cdio4_api.model.RegisterModel
 import com.anhkiet.cdio4_api.service.AccountService
 import com.anhkiet.cdio4_api.service.TokenService
-import org.springframework.http.HttpStatus
 import org.springframework.security.crypto.bcrypt.BCrypt
 import org.springframework.web.bind.annotation.*
 
@@ -21,24 +20,20 @@ class AuthController(
     fun login(@RequestBody payload: LoginModel) = response {
         when (val account = accountService.findByEmail(payload.email)) {
             null -> content(
-                HttpStatus.OK,
-                "login failure",
+                "message" to "login failure",
                 "reason" to "Username not match!"
             )
 
             else -> if (!BCrypt.checkpw(payload.password, account.password))
                 content(
-                    HttpStatus.OK,
-                    "login failure",
+                    "message" to "login failure",
                     "reason" to "Password not match!"
                 )
             else {
-                print(AccountDTO.fromEntity(account))
                 content(
-                    HttpStatus.OK,
-                    "ok",
-                    "token" to tokenService.createToken(account.email!!, account.role!!),
-                    "user" to AccountDTO.fromEntity(account)
+                    "message" to "login successful",
+                    "token" to tokenService.createToken(account.email, account.role!!),
+                    "user" to account
                 )
             }
         }
@@ -48,8 +43,7 @@ class AuthController(
     fun register(@RequestBody payload: RegisterModel) = response {
         when (accountService.existsByEmail(payload.email)) {
             true -> content(
-                HttpStatus.OK,
-                "register failure",
+                "message" to "register failure",
                 "reason" to "Username already exists",
             )
 
@@ -62,10 +56,9 @@ class AuthController(
                     )
                 )
                 content(
-                    HttpStatus.OK,
-                    "register successful!",
-                    "token" to tokenService.createToken(account.email!!, account.role!!),
-                    "account" to AccountDTO.fromEntity(account)
+                    "message" to "register successful!",
+                    "token" to tokenService.createToken(account.email, account.role!!),
+                    "account" to account
                 )
             }
         }

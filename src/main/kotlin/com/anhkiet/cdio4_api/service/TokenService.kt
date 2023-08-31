@@ -1,5 +1,6 @@
 package com.anhkiet.cdio4_api.service
 
+import com.anhkiet.cdio4_api.dto.AccountDTO
 import com.anhkiet.cdio4_api.entities.Account
 import org.springframework.security.oauth2.jwt.JwsHeader
 import org.springframework.security.oauth2.jwt.JwtClaimsSet
@@ -30,7 +31,7 @@ class TokenService(
         return jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).tokenValue
     }
 
-    fun parseToken(token: String): Account? {
+    fun parseToken(token: String): AccountDTO? {
         return try {
             val jwt = jwtDecoder.decode(token)
             val email = jwt.claims["email"] as String
