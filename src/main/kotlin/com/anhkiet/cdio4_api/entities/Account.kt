@@ -1,12 +1,6 @@
 package com.anhkiet.cdio4_api.entities
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.JoinTable
-import jakarta.persistence.ManyToMany
-import jakarta.persistence.OneToMany
+import jakarta.persistence.*
 import java.math.BigDecimal
 
 
@@ -73,4 +67,7 @@ class Account {
 
     @OneToMany(mappedBy = "account")
     var houseNews: MutableSet<News>? = null
+
+    @Column
+    var resetPasswordToken: String? = null
 }
