@@ -42,6 +42,11 @@ dependencies {
 	//Test database
 	// https://mvnrepository.com/artifact/com.h2database/h2
 	testImplementation group: 'com.h2database', name: 'h2', version: '2.2.220'
+
+	//Mail
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.1.3'
+
 }
 
 tasks.withType(KotlinCompile) {

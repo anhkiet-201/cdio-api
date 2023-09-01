@@ -1,6 +1,5 @@
 package com.anhkiet.cdio4_api.dto
 
-import com.anhkiet.cdio4_api.entities.House
 import com.anhkiet.cdio4_api.entities.HouseImages
 import com.anhkiet.cdio4_api.entities.HouseInfo
 import com.anhkiet.cdio4_api.entities.HouseType
@@ -21,9 +20,6 @@ data class HouseInfoDTO(
 
     val numBedRoom: Int = 0,
 
-    @JsonIgnore
-    val infoHouses: List<House> = emptyList(),
-
     val houseImage: HouseImages? = null,
 
     @JsonIgnore
@@ -37,7 +33,6 @@ data class HouseInfoDTO(
         numToilet = houseInfo.numToilet ?: 0,
         numLivingRoom = houseInfo.numLivingRoom ?: 0,
         numBedRoom = houseInfo.numBedRoom ?: 0,
-        infoHouses = houseInfo.inforHouses?.toList() ?: emptyList(),
         houseImage = houseInfo.houseImage,
         houseTypeDetailHouseTypes = houseInfo.houseTypeDetailHouseTypes?.toList() ?: emptyList()
     )
@@ -51,7 +46,6 @@ data class HouseInfoDTO(
         houseInfo.numToilet = numToilet
         houseInfo.numLivingRoom = numLivingRoom
         houseInfo.numBedRoom = numBedRoom
-        houseInfo.inforHouses = infoHouses.toMutableSet()
         houseInfo.houseImage = houseImage
         houseInfo.houseTypeDetailHouseTypes = houseTypeDetailHouseTypes.toMutableSet()
         return houseInfo
