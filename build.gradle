@@ -42,6 +42,10 @@ dependencies {
 	//Test database
 	// https://mvnrepository.com/artifact/com.h2database/h2
 	testImplementation group: 'com.h2database', name: 'h2', version: '2.2.220'
+
+	//Aap-Docs
+	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.2.0'
 }
 
 tasks.withType(KotlinCompile) {
