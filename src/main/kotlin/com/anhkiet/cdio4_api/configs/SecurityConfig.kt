@@ -56,7 +56,7 @@ class SecurityConfig(
         }
         // Other configuration
         http.cors {
-            it.disable()
+            it.configurationSource(corsConfigurationSource())
         }
         http.sessionManagement {
             it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -82,7 +82,7 @@ class SecurityConfig(
     fun corsConfigurationSource(): CorsConfigurationSource {
         // allow localhost for dev purposes
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("http://localhost:80", "http://localhost:80")
+        configuration.allowedOrigins = listOf("http://localhost:80", "http://localhost:80", "http://localhost:3000")
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE")
         configuration.allowedHeaders = listOf("authorization", "content-type")
         val source = UrlBasedCorsConfigurationSource()
