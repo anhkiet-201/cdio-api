@@ -1,16 +1,36 @@
 package com.anhkiet.cdio4_api.service
 
+import com.anhkiet.cdio4_api.dto.HouseDTO
 import com.anhkiet.cdio4_api.dto.ProjectDTO
+import com.anhkiet.cdio4_api.model.SearchModel
 import com.anhkiet.cdio4_api.repositories.ProjectRepository
 import org.springframework.stereotype.Service
 
 @Service
 class ProjectService(
-    val repo: ProjectRepository
+        val repo: ProjectRepository
 ) {
     fun getNewestProject(limit: Int = 3): List<ProjectDTO> = repo.findAll().let {
         if (it.count() < 3) it else it.subList(0, 2)
     }.map {
         ProjectDTO(it)
     }.toList()
+
+    fun search(key: SearchModel): List<ProjectDTO> {
+        var result = repo.findByProjectNameOrProjectAddress(key.key)
+                .map {
+                    ProjectDTO(it)
+                }
+                .toList()
+        result = if (key.sortByDesc) {
+            result.sortedBy {
+                it.projectName
+            }
+        } else {
+            result.sortedByDescending {
+                it.projectName
+            }
+        }
+        return result
+    }
 }
