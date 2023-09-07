@@ -1,7 +1,11 @@
 package com.anhkiet.cdio4_api.model
 
-data class SearchModel(
+class SearchModel(
         val key: String,
         val category: String?,
-        val sortByDesc: Boolean = true
-)
+        val sortByDesc: Boolean = true,
+        val filterPyPriceFrom: Long = 0,
+        val filterPyPriceTo: Long = 1_000_000_000,
+        size: Int = 10,
+        index: Int = 0
+): PageableModel(size, index)

@@ -27,7 +27,7 @@ data class HouseDTO(
 
         val info: HouseInfoDTO? = null
 ) {
-    var createTime: BigDecimal = BigDecimal(Date().time)
+    private var createTime: BigDecimal = BigDecimal(Date().time)
 
     constructor(house: House) : this(
             houseId = house.houseId,

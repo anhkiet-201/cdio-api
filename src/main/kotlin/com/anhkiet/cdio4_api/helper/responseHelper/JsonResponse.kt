@@ -1,5 +1,6 @@
 package com.anhkiet.cdio4_api.helper.responseHelper
 
+import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import java.util.Calendar
@@ -30,6 +31,21 @@ fun content(status: HttpStatus, vararg params: PairType): JsonBuilder {
 }
 
 fun content(vararg params: PairType): JsonBuilder = content(HttpStatus.OK, *params)
+
+fun <T> contentPageable(pageData: Page<T>, filterBy: ((T) -> Boolean)? = null): JsonBuilder {
+    var items = pageData.content
+    filterBy?.let {filter ->
+        items = items.filter {
+            filter.invoke(it)
+        }
+    }
+    return content(
+            "page_index" to pageData.number,
+            "total_pages" to pageData.totalPages,
+            "has_next_page" to pageData.hasNext(),
+            "items" to items
+    )
+}
 
 inline fun <T> T.response(contentBuilder: (T) -> JsonBuilder): JsonResponseType {
     val builder = contentBuilder.invoke(this)
