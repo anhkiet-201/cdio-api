@@ -1,55 +1,51 @@
 package com.anhkiet.cdio4_api.helper.responseHelper
 
+import com.anhkiet.cdio4_api.model.BaseResponseModel
+import com.anhkiet.cdio4_api.model.PageableResponseModel
 import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 
-typealias JsonResponseType = ResponseEntity<Map<String, Any?>>
-typealias PairType = Pair<String, Any>
-data class JsonBuilder(
-    val status: Int,
-    val body: Map<String, Any>
+data class JsonBuilder<T>(
+        val status: Int,
+        val body: BaseResponseModel<T>
 )
 
-fun objectOf(vararg params: PairType): Map<String, Any> {
-    return mapOf(*params)
-}
-
-fun content(status: HttpStatus, vararg params: PairType): JsonBuilder {
-    val map: Map<String, Any> = mapOf(
-        "timestamp" to Date().time,
-        "status_code" to status.value(),
-        "status_description" to status.reasonPhrase,
-        "data" to objectOf(*params)
-    )
+fun <T> content(status: HttpStatus, data: T? = null): JsonBuilder<T> {
     return JsonBuilder(
-        status.value(),
-        map
+            status.value(),
+            BaseResponseModel(
+                    Date().time,
+                    status.value(),
+                    status.reasonPhrase,
+                    data
+            )
     )
 }
 
-fun content(vararg params: PairType): JsonBuilder = content(HttpStatus.OK, *params)
+fun <T> content(data: T): JsonBuilder<T> = content(HttpStatus.OK, data)
 
-fun <T> contentPageable(pageData: Page<T>, filterBy: ((T) -> Boolean)? = null): JsonBuilder {
+fun <T> contentPageable(pageData: Page<T>, filterBy: ((T) -> Boolean)? = null): JsonBuilder<PageableResponseModel<T>> {
     var items = pageData.content
-    filterBy?.let {filter ->
+    filterBy?.let { filter ->
         items = items.filter {
             filter.invoke(it)
         }
     }
     return content(
-            "page_index" to pageData.number,
-            "total_pages" to pageData.totalPages,
-            "has_next_page" to pageData.hasNext(),
-            "items" to items
+            PageableResponseModel(
+                    pageData.number,
+                    pageData.totalPages,
+                    pageData.hasNext(),
+                    items
+            )
     )
 }
 
-inline fun <T> T.response(contentBuilder: (T) -> JsonBuilder): JsonResponseType {
+inline fun <T, E> T.response(contentBuilder: (T) -> JsonBuilder<E>): ResponseEntity<BaseResponseModel<E>> {
     val builder = contentBuilder.invoke(this)
     return ResponseEntity.status(builder.status).body(
-        builder.body
+            builder.body
     )
 }

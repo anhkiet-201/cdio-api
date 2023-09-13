@@ -16,18 +16,22 @@ data class HouseDTO(
 
         val address: String? = null,
 
+        @JsonIgnore
         val account: Account? = null,
 
         @JsonIgnore
         val favoriteAccounts: List<Account> = emptyList(),
 
+        @JsonIgnore
         val project: Project? = null,
 
+        @JsonIgnore
         val category: CategoryDTO? = null,
 
+        @JsonIgnore
         val info: HouseInfoDTO? = null
 ) {
-    private var createTime: BigDecimal = BigDecimal(Date().time)
+    var createTime: BigDecimal = BigDecimal(Date().time)
 
     constructor(house: House) : this(
             houseId = house.houseId,
