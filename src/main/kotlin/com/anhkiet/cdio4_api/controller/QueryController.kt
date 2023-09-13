@@ -3,6 +3,8 @@ package com.anhkiet.cdio4_api.controller
 import com.anhkiet.cdio4_api.helper.responseHelper.content
 import com.anhkiet.cdio4_api.helper.responseHelper.contentPageable
 import com.anhkiet.cdio4_api.helper.responseHelper.response
+import com.anhkiet.cdio4_api.model.CategoryResponseModel
+import com.anhkiet.cdio4_api.model.HomeResponseModel
 import com.anhkiet.cdio4_api.model.SearchModel
 import com.anhkiet.cdio4_api.service.CategoryService
 import com.anhkiet.cdio4_api.service.HouseService
@@ -26,16 +28,24 @@ class QueryController(
         val projectNewest = projectService.getNewestProject()
         val newsNewest = newsService.getNewestNews()
         content(
-                "house_newest" to houseNewest,
-                "project_newest" to projectNewest,
-                "news_newest" to newsNewest
+                HomeResponseModel(
+                    true,
+                    "",
+                    houseNewest,
+                    projectNewest,
+                    newsNewest
+                )
         )
     }
 
     @GetMapping("/category")
     fun category() = response {
         content(
-                "items" to categoryService.findAll()
+                CategoryResponseModel(
+                        true,
+                        "Category",
+                        categoryService.findAll()
+                )
         )
     }
 
