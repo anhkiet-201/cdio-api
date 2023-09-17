@@ -53,7 +53,7 @@ class AccountService(
         return true
     }
 
-    fun updatePassword(email: String, newPassword: String, token: String? = null): AccountDTO? {
+    fun updatePassword(email: String, hashPassword: String, token: String? = null): AccountDTO? {
         repo.findByEmail(email)?.let { account ->
             token?.let {
                 val expiryDate = it.toLongOrNull()
@@ -64,7 +64,7 @@ class AccountService(
                         return AccountDTO(
                             repo.save(
                                 account.apply {
-                                    password = BCrypt.hashpw(newPassword, BCrypt.gensalt())
+                                    password = hashPassword
                                     resetPasswordToken = null
                                 }
                             )
@@ -77,7 +77,7 @@ class AccountService(
             return AccountDTO(
                 repo.save(
                     account.apply {
-                        password = BCrypt.hashpw(newPassword, BCrypt.gensalt())
+                        password = BCrypt.hashpw(hashPassword, BCrypt.gensalt())
                     }
                 )
             )

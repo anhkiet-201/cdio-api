@@ -99,19 +99,22 @@ class AuthController(
 
     @PostMapping("/setNewPassword")
     fun setNewPassword(@RequestBody payload: ResetPasswordModel) = response {
-        when (accountService.updatePassword(payload.email, payload.password, payload.token)) {
+        val hashpw = BCrypt.hashpw(payload.password, BCrypt.gensalt())
+        when (val account = accountService.updatePassword(payload.email, hashpw, payload.token)) {
             null -> content(
-                    BaseDataResponseModel(
-                            false,
-                            "Something is wrong!"
-                    )
+                AuthResponseModel(
+                    false,
+                    "Update password error!"
+                )
             )
 
             else -> content(
-                    BaseDataResponseModel(
-                            true,
-                            "Reset password is successful"
-                    )
+                AuthResponseModel(
+                    true,
+                    "Update password successful!",
+                    tokenService.createToken(account.email, account.role!!),
+                    account
+                )
             )
         }
     }
