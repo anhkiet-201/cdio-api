@@ -6,20 +6,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import java.math.BigDecimal
 
 data class HouseTypeDTO(
+    @JsonIgnore
     val houseTypeId: Int,
 
     val typeName: String,
 
     val price: BigDecimal,
-
-    @JsonIgnore
-    val houseTypeDetailHouseInfos: List<HouseInfo> = emptyList()
 ) {
     constructor(houseType: HouseType) : this(
         houseTypeId = houseType.houseTypeId,
         typeName = houseType.typeName,
         price = houseType.price,
-        houseTypeDetailHouseInfos = houseType.houseTypeDetailHouseInfos?.toList() ?: emptyList()
     )
 
     fun toEntity(): HouseType {
@@ -27,7 +24,6 @@ data class HouseTypeDTO(
         houseType.houseTypeId = houseTypeId
         houseType.typeName = typeName
         houseType.price = price
-        houseType.houseTypeDetailHouseInfos = houseTypeDetailHouseInfos.toMutableSet()
         return houseType
     }
 }

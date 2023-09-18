@@ -4,8 +4,10 @@ import com.anhkiet.cdio4_api.entities.HouseImages
 import com.anhkiet.cdio4_api.entities.HouseInfo
 import com.anhkiet.cdio4_api.entities.HouseType
 import com.fasterxml.jackson.annotation.JsonIgnore
+import jakarta.persistence.OneToMany
 
 data class HouseInfoDTO(
+    @JsonIgnore
     val infoId: Int,
 
     val thumbNailUrl: String? = null,
@@ -20,10 +22,9 @@ data class HouseInfoDTO(
 
     val numBedRoom: Int = 0,
 
-    val houseImage: HouseImages? = null,
+    val houseImage: List<HouseImagesDTO> = emptyList(),
 
-    @JsonIgnore
-    val houseTypeDetailHouseTypes: List<HouseType> = emptyList(),
+    val houseTypeDetailHouseTypes: List<HouseTypeDTO> = emptyList(),
 ) {
     constructor(houseInfo: HouseInfo) : this(
         infoId = houseInfo.inforId,
@@ -33,10 +34,9 @@ data class HouseInfoDTO(
         numToilet = houseInfo.numToilet ?: 0,
         numLivingRoom = houseInfo.numLivingRoom ?: 0,
         numBedRoom = houseInfo.numBedRoom ?: 0,
-        houseImage = houseInfo.houseImage,
-        houseTypeDetailHouseTypes = houseInfo.houseTypeDetailHouseTypes?.toList() ?: emptyList()
+        houseImage = houseInfo.houseImage?.map { HouseImagesDTO(it) } ?: emptyList(),
+        houseTypeDetailHouseTypes = houseInfo.houseTypeDetailHouseTypes?.map { HouseTypeDTO(it) } ?: emptyList()
     )
-
     fun toEntity(): HouseInfo {
         val houseInfo = HouseInfo()
         houseInfo.inforId = infoId
@@ -46,8 +46,8 @@ data class HouseInfoDTO(
         houseInfo.numToilet = numToilet
         houseInfo.numLivingRoom = numLivingRoom
         houseInfo.numBedRoom = numBedRoom
-        houseInfo.houseImage = houseImage
-        houseInfo.houseTypeDetailHouseTypes = houseTypeDetailHouseTypes.toMutableSet()
+        houseInfo.houseImage = houseImage.map { it.toEntity() }.toMutableSet()
+        houseInfo.houseTypeDetailHouseTypes = houseTypeDetailHouseTypes.map { it.toEntity() }.toMutableSet()
         return houseInfo
     }
 }

@@ -1,11 +1,6 @@
 package com.anhkiet.cdio4_api.entities
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.OneToMany
+import jakarta.persistence.*
 
 
 @Entity
@@ -22,7 +17,11 @@ class HouseImages {
     @Column(columnDefinition = "longtext")
     var imageUrl: String = ""
 
-    @OneToMany(mappedBy = "houseImage")
-    var houseImageHouseInfos: MutableSet<HouseInfo>? = null
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "infor_id",
+        nullable = false
+    )
+    var houseImageHouseInfos: HouseInfo? = null
 
 }

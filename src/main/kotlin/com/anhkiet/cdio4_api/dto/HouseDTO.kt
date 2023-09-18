@@ -16,35 +16,36 @@ data class HouseDTO(
 
         val address: String? = null,
 
-        @JsonIgnore
-        val account: Account? = null,
+        val account: AccountDTO? = null,
 
-        @JsonIgnore
-        val favoriteAccounts: List<Account> = emptyList(),
+        val project: ProjectDTO? = null,
 
-        @JsonIgnore
-        val project: Project? = null,
-
-        @JsonIgnore
         val category: CategoryDTO? = null,
 
-        @JsonIgnore
         val info: HouseInfoDTO? = null
 ) {
     var createTime: BigDecimal = BigDecimal(Date().time)
+
+    var isOwner: Boolean = false
+
+    var isFavorite: Boolean = false
 
     constructor(house: House) : this(
             houseId = house.houseId,
             displayName = house.displayName,
             description = house.description,
             address = house.address,
-            account = house.email,
-            favoriteAccounts = house.favoriteAccounts?.toList() ?: emptyList(),
-            project = house.project,
-            category = if (house.category != null) CategoryDTO(house.category!!) else null,
-            info = if (house.infor != null) HouseInfoDTO(house.infor!!) else null
+            account = house.email?.let { AccountDTO(it) },
+            project = house.project?.let { ProjectDTO(it) },
+            category = house.category?.let { CategoryDTO(it) },
+            info = house.infor?.let { HouseInfoDTO(it) }
     ) {
         createTime = house.createTime ?: BigDecimal(0)
+    }
+
+    constructor(house: House, isOwner: Boolean, isFavorite: Boolean) : this(house) {
+        this.isOwner = isOwner
+        this.isFavorite = isFavorite
     }
 
     fun toEntity(): House {
@@ -53,9 +54,8 @@ data class HouseDTO(
         house.displayName = displayName
         house.description = description
         house.address = address
-        house.email = account
-        house.favoriteAccounts = favoriteAccounts.toMutableSet()
-        house.project = project
+        house.email = account?.toEntity()
+        house.project = project?.toEntity()
         house.category = category?.toEntity()
         house.infor = info?.toEntity()
         house.createTime = createTime

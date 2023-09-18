@@ -27,15 +27,6 @@ data class AccountDTO(
     val description: String? = null,
 
     @JsonIgnore
-    val houseOwner: List<House> = emptyList(),
-
-    @JsonIgnore
-    val favoriteHouses: List<House> = emptyList(),
-
-    @JsonIgnore
-    val houseNews: List<News> = emptyList(),
-
-    @JsonIgnore
     val resetPasswordToken: String? = null
 ) {
 
@@ -49,9 +40,6 @@ data class AccountDTO(
         address = account.address,
         role = account.role,
         description = account.description,
-        houseOwner = account.emailHouses?.toList() ?: emptyList(),
-        favoriteHouses = account.favoriteHouses?.toList() ?: emptyList(),
-        houseNews = account.houseNews?.toList() ?: emptyList(),
         resetPasswordToken = account.resetPasswordToken
     )
 
@@ -66,9 +54,6 @@ data class AccountDTO(
         account.address = address
         account.role = role
         account.description = description
-        account.emailHouses = houseOwner.toMutableSet()
-        account.favoriteHouses = favoriteHouses.toMutableSet()
-        account.houseNews = houseNews.toMutableSet()
         account.resetPasswordToken = resetPasswordToken
         return account
     }

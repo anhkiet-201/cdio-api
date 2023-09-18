@@ -5,14 +5,13 @@ import com.anhkiet.cdio4_api.entities.House
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 data class CategoryDTO(
+
+    @JsonIgnore
     val categoryId: Int,
 
     val categoryName: String,
 
-    val description: String? = null,
-
-    @JsonIgnore
-    var categoryHouses: List<House> = emptyList()
+    val description: String? = null
 ) {
     constructor(
         category: Category
@@ -20,7 +19,6 @@ data class CategoryDTO(
         categoryId = category.categoryId,
         categoryName = category.categoryName,
         description = category.description,
-        categoryHouses = category.categoryHouses?.toList() ?: emptyList()
     )
 
     fun toEntity(): Category {
@@ -28,7 +26,6 @@ data class CategoryDTO(
         category.categoryId = categoryId
         category.categoryName = categoryName
         category.description = description
-        category.categoryHouses = categoryHouses.toMutableSet()
         return category
     }
 }
