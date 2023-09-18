@@ -32,12 +32,8 @@ class HouseInfo {
     @Column(nullable = false)
     var numBedRoom: Int? = null
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-        name = "house_image_id",
-        nullable = false
-    )
-    var houseImage: HouseImages? = null
+    @OneToMany(mappedBy = "houseImageHouseInfos")
+    var houseImage: MutableSet<HouseImages>? = null
 
     @ManyToMany
     @JoinTable(

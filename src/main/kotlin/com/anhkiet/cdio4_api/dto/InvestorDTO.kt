@@ -5,6 +5,7 @@ import com.anhkiet.cdio4_api.entities.Project
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 data class InvestorDTO(
+    @JsonIgnore
     val investorId: Int,
 
     val investorName: String,
@@ -16,7 +17,7 @@ data class InvestorDTO(
     val isActive: Boolean,
 
     @JsonIgnore
-    val investorProjects: List<Project> = emptyList()
+    val investorProjects: List<ProjectDTO> = emptyList()
 ) {
     constructor(investor: Investor) : this(
         investorId = investor.investorId,
@@ -24,7 +25,7 @@ data class InvestorDTO(
         logoUrl = investor.logoUrl,
         description = investor.description,
         isActive = investor.isActive,
-        investorProjects = investor.investorProjects?.toList() ?: emptyList()
+        investorProjects = investor.investorProjects?.map { ProjectDTO(it) } ?: emptyList()
     )
 
     fun toEntity(): Investor {
@@ -34,7 +35,7 @@ data class InvestorDTO(
         investor.logoUrl = logoUrl
         investor.description = description
         investor.isActive = isActive
-        investor.investorProjects = investorProjects.toMutableSet()
+        investor.investorProjects = investorProjects.map { it.toEntity() }.toMutableSet()
         return investor
     }
 }
