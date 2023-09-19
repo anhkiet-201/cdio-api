@@ -14,13 +14,11 @@ data class HouseDTO(
 
         val description: String? = null,
 
-        val address: String? = null,
+        val address: AddressDTO? = null,
 
         val account: AccountDTO? = null,
 
         val project: ProjectDTO? = null,
-
-        val category: CategoryDTO? = null,
 
         val info: HouseInfoDTO? = null
 ) {
@@ -34,10 +32,9 @@ data class HouseDTO(
             houseId = house.houseId,
             displayName = house.displayName,
             description = house.description,
-            address = house.address,
+            address = house.address?.let { AddressDTO(it) },
             account = house.email?.let { AccountDTO(it) },
             project = house.project?.let { ProjectDTO(it) },
-            category = house.category?.let { CategoryDTO(it) },
             info = house.infor?.let { HouseInfoDTO(it) }
     ) {
         createTime = house.createTime ?: BigDecimal(0)
@@ -53,10 +50,9 @@ data class HouseDTO(
         house.houseId = houseId
         house.displayName = displayName
         house.description = description
-        house.address = address
+//        house.address = address
         house.email = account?.toEntity()
         house.project = project?.toEntity()
-        house.category = category?.toEntity()
         house.infor = info?.toEntity()
         house.createTime = createTime
         return house

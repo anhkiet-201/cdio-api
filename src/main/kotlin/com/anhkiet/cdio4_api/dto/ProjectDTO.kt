@@ -30,7 +30,6 @@ data class ProjectDTO(
         projectId = project.projectId,
         projectName = project.projectName,
         projectStatus = project.projectStatus,
-        projectAddress = project.projectAddress,
         contactInfo = project.contactInfo,
         projectThumbNailUrl = project.projectThumbNailUrl,
         projectDescription = project.projectDescription,
@@ -43,7 +42,6 @@ data class ProjectDTO(
         project.projectId = projectId
         project.projectName = projectName
         project.projectStatus = projectStatus
-        project.projectAddress = projectAddress
         project.contactInfo = contactInfo
         project.projectThumbNailUrl = projectThumbNailUrl
         project.projectDescription = projectDescription

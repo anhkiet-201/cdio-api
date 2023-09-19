@@ -31,9 +31,6 @@ class Project {
     )
     var projectStatus: String = ""
 
-    @Column
-    var projectAddress: String? = null
-
     @Column(length = 100)
     var contactInfo: String? = null
 

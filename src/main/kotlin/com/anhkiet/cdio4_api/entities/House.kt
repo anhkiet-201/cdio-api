@@ -30,12 +30,6 @@ class House {
     )
     var createTime: BigDecimal? = null
 
-    @Column(
-        nullable = false,
-        columnDefinition = "longtext"
-    )
-    var address: String? = null
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
         name = "email_id",
@@ -55,10 +49,10 @@ class House {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        name = "category_id",
+        name = "id",
         nullable = false
     )
-    var category: Category? = null
+    var address: Address? = null
 
     @OneToOne
     @JoinColumn(
