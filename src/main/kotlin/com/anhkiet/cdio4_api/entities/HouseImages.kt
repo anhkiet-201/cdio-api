@@ -1,6 +1,8 @@
 package com.anhkiet.cdio4_api.entities
 
 import jakarta.persistence.*
+import org.hibernate.annotations.Cascade
+import org.hibernate.annotations.CascadeType
 
 
 @Entity
@@ -12,7 +14,7 @@ class HouseImages {
         updatable = false
     )
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var houseImageId: Int = 0
+    var houseImageId: Int? = null
 
     @Column(columnDefinition = "longtext")
     var imageUrl: String = ""
@@ -22,6 +24,7 @@ class HouseImages {
         name = "infor_id",
         nullable = false
     )
+    @Cascade(CascadeType.ALL)
     var houseImageHouseInfos: HouseInfo? = null
 
 }

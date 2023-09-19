@@ -43,11 +43,11 @@ class Project {
     @OneToMany(mappedBy = "project")
     var projectHouses: MutableSet<House>? = null
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-        name = "investor_id",
-        nullable = false
-    )
-    var investor: Investor? = null
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(
+//        name = "investor_id",
+//        nullable = false
+//    )
+//    var investor: Investor? = null
 
 }

@@ -10,7 +10,7 @@ data class HouseImagesDTO(
     var imageUrl: String,
 ) {
     constructor(houseImages: HouseImages) : this(
-        houseImageId = houseImages.houseImageId,
+        houseImageId = houseImages.houseImageId ?: -1,
         imageUrl = houseImages.imageUrl,
     )
 
