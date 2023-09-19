@@ -4,7 +4,7 @@ import com.anhkiet.cdio4_api.entities.Project
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 data class ProjectDTO(
-    @JsonIgnore
+
     val projectId: Int,
 
     val projectName: String,

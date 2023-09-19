@@ -15,7 +15,7 @@ class ProjectController(
     private val projectService: ProjectService
 ) {
     @GetMapping("/all-project")
-    fun getAllProject(@RequestBody projectAllRequestModel: ProjectAllRequestModel) = response {
+    fun getAllProject(projectAllRequestModel: ProjectAllRequestModel) = response {
         contentPageable(
             projectService.getAll(projectAllRequestModel)
         )

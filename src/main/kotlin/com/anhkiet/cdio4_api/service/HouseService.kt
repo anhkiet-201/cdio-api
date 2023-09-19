@@ -29,13 +29,13 @@ class HouseService(
             searchModel.size,
             if (searchModel.sortByDesc) sort.descending() else sort.ascending()
         )
-        return repo.searchAllByAddress_ProvinceAndAddress_DistrictAndAddress_WardsAndAddress_StreetAndDisplayNameContainsIgnoreCaseAndProject_ProjectName(
-            searchModel.province,
-            searchModel.district,
-            searchModel.wards,
-            searchModel.street,
+        return repo.searchAllByDisplayNameContainsIgnoreCaseAndAddressProvinceContainsIgnoreCaseAndAddressDistrictContainsIgnoreCaseAndAddressWardsContainsIgnoreCaseAndAddressStreetContainsIgnoreCaseAndProjectProjectNameContainsIgnoreCase(
             searchModel.key,
-            searchModel.projectName,
+            searchModel.province ?: "",
+            searchModel.district ?: "",
+            searchModel.wards ?: "",
+            searchModel.street ?: "",
+            searchModel.projectName ?: "",
             pageRequest
         )
             .map {
