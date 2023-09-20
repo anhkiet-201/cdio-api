@@ -38,3 +38,6 @@ out/
 
 ### AWS Deploy ##
 .elasticbeanstalk/
+
+##fake data
+src/main/kotlin/com/anhkiet/cdio4_api/controller/DemoController.kt
