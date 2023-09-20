@@ -5,6 +5,7 @@ import com.anhkiet.cdio4_api.helper.responseHelper.contentPageable
 import com.anhkiet.cdio4_api.helper.responseHelper.response
 import com.anhkiet.cdio4_api.model.AddressResponseModel
 import com.anhkiet.cdio4_api.model.HomeResponseModel
+import com.anhkiet.cdio4_api.model.PageableRequestModel
 import com.anhkiet.cdio4_api.model.SearchModel
 import com.anhkiet.cdio4_api.service.AddressService
 import com.anhkiet.cdio4_api.service.HouseService
@@ -22,10 +23,10 @@ class QueryController(
     val newsService: NewsService
 ) {
     @GetMapping("/home")
-    fun home() = response {
-        val houseNewest = houseService.getNewestHouse()
-        val projectNewest = projectService.getNewestProject()
-        val newsNewest = newsService.getNewestNews()
+    fun home(request: PageableRequestModel = PageableRequestModel(3, 0, true)) = response {
+        val houseNewest = houseService.getAll(request).toList()
+        val projectNewest = projectService.getAll(request).toList()
+        val newsNewest = newsService.getAll(request).toList()
         content(
                 HomeResponseModel(
                     true,

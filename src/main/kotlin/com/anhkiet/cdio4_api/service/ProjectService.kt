@@ -1,25 +1,30 @@
 package com.anhkiet.cdio4_api.service
 
-import com.anhkiet.cdio4_api.dto.HouseDTO
 import com.anhkiet.cdio4_api.dto.ProjectDTO
+import com.anhkiet.cdio4_api.model.PageableRequestModel
 import com.anhkiet.cdio4_api.model.ProjectAllRequestModel
-import com.anhkiet.cdio4_api.model.SearchModel
 import com.anhkiet.cdio4_api.repositories.ProjectRepository
+import com.anhkiet.cdio4_api.utils.entension.toNullSafe
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 
 @Service
 class ProjectService(
-        val repo: ProjectRepository
+    val repo: ProjectRepository
 ) {
-    fun getNewestProject(limit: Int = 3): List<ProjectDTO> = repo.findAll().let {
-        if (it.count() < 3) it else it.subList(0, 2)
-    }.map {
-        ProjectDTO(it)
-    }.toList()
+    fun getAll(request: PageableRequestModel): Page<ProjectDTO> {
+        val sort = Sort.by("createTime")
+        val pageRequest = PageRequest.of(
+            request.index,
+            request.size,
+            sort.descending()
+        )
+        return repo.findAll(
+            if (request.enableSort) pageRequest.withSort(sort) else pageRequest
+        ).map { ProjectDTO(it) }
+    }
 
     fun getAll(projectAllRequestModel: ProjectAllRequestModel): Page<ProjectDTO> {
         val pageRequest = PageRequest.of(
@@ -28,6 +33,8 @@ class ProjectService(
         )
         return repo.findAll(pageRequest).map { ProjectDTO(it) }
     }
+
+    fun getById(id: Int): ProjectDTO? = repo.findById(id).toNullSafe()?.let { ProjectDTO(it) }
 
 //    fun search(searchModel: SearchModel): Page<ProjectDTO> {
 //        val sort = Sort.by("projectName")

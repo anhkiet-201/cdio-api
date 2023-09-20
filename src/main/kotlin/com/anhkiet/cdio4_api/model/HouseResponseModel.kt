@@ -4,5 +4,5 @@ import com.anhkiet.cdio4_api.dto.HouseDTO
 
 class HouseResponseModel(
     status: Boolean,
-    house: HouseDTO?
+    val house: HouseDTO?
 ) : BaseDataResponseModel(status, "")

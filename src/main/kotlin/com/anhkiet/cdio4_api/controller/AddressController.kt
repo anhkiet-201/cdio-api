@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/address")
 class AddressController(
     val addressService: AddressService
 ) {
-    @GetMapping("/address")
+    @GetMapping("/getAll")
     fun getAddress() = response {
         content(
             AddressResponseModel(
