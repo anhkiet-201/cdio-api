@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/house")
 class HouseController(
     private val houseService: HouseService
 ) {
-    @GetMapping("/house")
+    @GetMapping("/getById")
     fun getHouseById(id: Int) = response {
         val house = houseService.getHouseById(id)
         content(

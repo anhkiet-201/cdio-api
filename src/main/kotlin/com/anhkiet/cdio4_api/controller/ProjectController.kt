@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/project")
 class ProjectController(
     private val projectService: ProjectService
 ) {
-    @GetMapping("/all-project")
+    @GetMapping("/getAll")
     fun getAllProject(projectAllRequestModel: ProjectAllRequestModel) = response {
         contentPageable(
             projectService.getAll(projectAllRequestModel)
         )
     }
 
-    @GetMapping("/getProjectById")
+    @GetMapping("/getById")
     fun getProjectById(id: Int) = response {
         val project = projectService.getById(id)
         content(
