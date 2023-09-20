@@ -1,6 +1,8 @@
 package com.anhkiet.cdio4_api.entities
 
 import jakarta.persistence.*
+import org.hibernate.annotations.Cascade
+import org.hibernate.annotations.CascadeType
 
 
 @Entity
@@ -45,6 +47,7 @@ class HouseInfo {
             JoinColumn(name = "house_type_id")
         ]
     )
+    @Cascade(CascadeType.ALL)
     var houseTypeDetailHouseTypes: MutableSet<HouseType>? = null
 
 }

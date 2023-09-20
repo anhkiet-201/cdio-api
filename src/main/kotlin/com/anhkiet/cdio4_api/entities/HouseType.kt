@@ -1,6 +1,8 @@
 package com.anhkiet.cdio4_api.entities
 
 import jakarta.persistence.*
+import org.hibernate.annotations.Cascade
+import org.hibernate.annotations.CascadeType
 import java.math.BigDecimal
 
 
@@ -25,6 +27,6 @@ class HouseType {
     var price: BigDecimal = BigDecimal(0)
 
     @ManyToMany(mappedBy = "houseTypeDetailHouseTypes")
+    @Cascade(CascadeType.ALL)
     var houseTypeDetailHouseInfos: MutableSet<HouseInfo>? = null
-
 }

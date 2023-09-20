@@ -21,7 +21,9 @@ class RequestHelper(
     fun getCurrentUserRequest(
     ): AccountDTO? {
         return getCurrentRequest()?.let {
-            tokenService.parseToken(it.getHeader("authorization"))
+            val auth = it.getHeader("authorization")
+            if (auth == null) return null
+            tokenService.parseToken(auth)
         }
     }
 }

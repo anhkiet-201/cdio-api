@@ -8,5 +8,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 
 interface ProjectRepository : JpaRepository<Project, Int> {
-    fun searchAllByProjectNameContainsIgnoreCaseOrProjectAddress(projectName: String, projectAddress: String, pageable: Pageable): Page<Project>
 }

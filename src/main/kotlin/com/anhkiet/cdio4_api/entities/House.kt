@@ -1,6 +1,8 @@
 package com.anhkiet.cdio4_api.entities
 
 import jakarta.persistence.*
+import org.hibernate.annotations.Cascade
+import org.hibernate.annotations.CascadeType
 import java.math.BigDecimal
 
 
@@ -25,25 +27,21 @@ class House {
     var description: String? = null
 
     @Column(
-        precision = 12,
+        precision = 18,
         scale = 0
     )
     var createTime: BigDecimal? = null
-
-    @Column(
-        nullable = false,
-        columnDefinition = "longtext"
-    )
-    var address: String? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
         name = "email_id",
         nullable = false
     )
+    @Cascade(CascadeType.ALL)
     var email: Account? = null
 
     @ManyToMany(mappedBy = "favoriteHouses")
+    @Cascade(CascadeType.ALL)
     var favoriteAccounts: MutableSet<Account>? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,20 +49,23 @@ class House {
         name = "project_id",
         nullable = false
     )
+    @Cascade(CascadeType.ALL)
     var project: Project? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        name = "category_id",
+        name = "id",
         nullable = false
     )
-    var category: Category? = null
+    @Cascade(CascadeType.ALL)
+    var address: Address? = null
 
     @OneToOne
     @JoinColumn(
         name = "infor_id",
         nullable = false
     )
+    @Cascade(CascadeType.ALL)
     var infor: HouseInfo? = null
 
 }

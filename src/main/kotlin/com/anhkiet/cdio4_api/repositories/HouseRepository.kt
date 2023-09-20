@@ -7,5 +7,13 @@ import org.springframework.data.domain.Pageable
 
 
 interface HouseRepository : JpaRepository<House, Int> {
-    fun searchAllByDisplayNameContainsIgnoreCaseOrAddressContainsIgnoreCase(displayName: String, address: String, pageable: Pageable): Page<House>
+    fun searchAllByDisplayNameContainsIgnoreCaseAndAddressProvinceContainsIgnoreCaseAndAddressDistrictContainsIgnoreCaseAndAddressWardsContainsIgnoreCaseAndAddressStreetContainsIgnoreCaseAndProjectProjectNameContainsIgnoreCase(
+        displayName: String,
+        address_province: String,
+        address_district: String,
+        address_wards: String,
+        address_street: String,
+        project_projectName: String,
+        pageable: Pageable
+    ): Page<House>
 }
