@@ -19,12 +19,11 @@ class HouseImages {
     @Column(columnDefinition = "longtext")
     var imageUrl: String = ""
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
         name = "infor_id",
         nullable = false
     )
-    @Cascade(CascadeType.ALL)
     var houseImageHouseInfos: HouseInfo? = null
 
 }

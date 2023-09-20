@@ -72,9 +72,33 @@ class DemoController(
     @GetMapping("/gHouse")
     fun gHousei() = response {
         houseRepository.saveAll(gHouse())
+        houseImagesRepository.saveAll(gImages())
+        //houseImagesRepository.saveAll(gHouseImage(gHouse()))
         content(
             "ok"
         )
+    }
+
+    fun gImages(): List<HouseImages> {
+        val houseInfos = houseInfoRepository.findAll()
+        var arr = emptyList<HouseImages>()
+        for (house in houseInfos) {
+            arr = arr.plus(
+                listOf(
+                    "https://file4.batdongsan.com.vn/2023/04/17/20230417230210-69b7_wm.jpg",
+                    "https://file4.batdongsan.com.vn/2023/04/17/20230417230218-7f65_wm.jpg",
+                    "https://file4.batdongsan.com.vn/2023/04/17/20230417230207-a221_wm.jpg",
+                    "https://file4.batdongsan.com.vn/2023/04/17/20230417230207-a221_wm.jpg",
+                    "https://file4.batdongsan.com.vn/2023/04/17/20230417230205-1b13_wm.jpg",
+                ).map {
+                    val houseImages = HouseImages()
+                    houseImages.imageUrl = it
+                    houseImages.houseImageHouseInfos = house
+                    houseImages
+                }
+            )
+        }
+        return arr
     }
 
     fun gAccount() : Account {
@@ -339,7 +363,6 @@ class DemoController(
             val hi = HouseInfo()
             hi.thumbNailUrl = "https://file4.batdongsan.com.vn/2023/04/17/20230417230202-3438_wm.jpg"
             hi.numKitchen = 1
-            hi.houseImage = gHouseImage().toMutableSet()
             hi.houseTypeDetailHouseTypes = gHouseType().toMutableSet()
             hi.numBathroom = 2
             hi.numToilet = 2
@@ -350,29 +373,34 @@ class DemoController(
         return arr
     }
 
-    fun gHouseImage() : List<HouseImages> {
-        var i = 0
-        return listOf(
-            "https://file4.batdongsan.com.vn/2023/04/17/20230417230210-69b7_wm.jpg",
-            "https://file4.batdongsan.com.vn/2023/04/17/20230417230218-7f65_wm.jpg",
-            "https://file4.batdongsan.com.vn/2023/04/17/20230417230207-a221_wm.jpg",
-            "https://file4.batdongsan.com.vn/2023/04/17/20230417230207-a221_wm.jpg",
-            "https://file4.batdongsan.com.vn/2023/04/17/20230417230205-1b13_wm.jpg",
-        ).map {
-            val houseImages = HouseImages()
-            houseImages.imageUrl = it
-//            houseImages.houseImageHouseInfos = gHouseInfo()[i++]
-            houseImages
-        }
-    }
+//    fun gHouseImage() : List<HouseImages> {
+//        var arr = emptyList<HouseImages>()
+//        for (house in houses) {
+//            var i = 0
+//            val x = listOf(
+//                "https://file4.batdongsan.com.vn/2023/04/17/20230417230210-69b7_wm.jpg",
+//                "https://file4.batdongsan.com.vn/2023/04/17/20230417230218-7f65_wm.jpg",
+//                "https://file4.batdongsan.com.vn/2023/04/17/20230417230207-a221_wm.jpg",
+//                "https://file4.batdongsan.com.vn/2023/04/17/20230417230207-a221_wm.jpg",
+//                "https://file4.batdongsan.com.vn/2023/04/17/20230417230205-1b13_wm.jpg",
+//            ).map {
+//                val houseImages = HouseImages()
+//                houseImages.imageUrl = it
+//                houseImages.houseImageHouseInfos = house.infor
+//                houseImages
+//            }
+//            arr = arr.plus(x)
+//        }
+//        return arr
+//    }
 
     fun gHouseType() : List<HouseType> {
         val bans = HouseType()
         bans.typeName = "Sell"
         bans.price = BigDecimal(10_000_000_000)
         val thue = HouseType()
-        bans.typeName = "Rent"
-        bans.price = BigDecimal(10_000_000)
+        thue.typeName = "Rent"
+        thue.price = BigDecimal(10_000_000)
         return listOf(
             bans,
             thue

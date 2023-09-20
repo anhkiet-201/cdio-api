@@ -2,6 +2,7 @@ package com.anhkiet.cdio4_api.service
 
 import com.anhkiet.cdio4_api.dto.HouseDTO
 import com.anhkiet.cdio4_api.entities.House
+import com.anhkiet.cdio4_api.model.PageableRequestModel
 import com.anhkiet.cdio4_api.model.SearchModel
 import com.anhkiet.cdio4_api.repositories.HouseRepository
 import com.anhkiet.cdio4_api.utils.entension.toNullSafe
@@ -16,11 +17,17 @@ class HouseService(
     val repo: HouseRepository,
     val requestHelper: RequestHelper
 ) {
-    fun getNewestHouse(limit: Int = 3): List<HouseDTO> = repo.findAll().let {
-        if (it.count() < 3) it else it.subList(0, 2)
-    }.map {
-        HouseDTO(it, isOwner(it), isFavorite(it))
-    }.toList()
+    fun getAll(request: PageableRequestModel): Page<HouseDTO> {
+        val sort = Sort.by("createTime")
+        val pageRequest = PageRequest.of(
+            request.index,
+            request.size,
+            sort.descending()
+        )
+        return repo.findAll(
+            if (request.enableSort) pageRequest.withSort(sort) else pageRequest
+        ).map { HouseDTO(it) }
+    }
 
     fun search(searchModel: SearchModel): Page<HouseDTO> {
         val sort = Sort.by("displayName")
