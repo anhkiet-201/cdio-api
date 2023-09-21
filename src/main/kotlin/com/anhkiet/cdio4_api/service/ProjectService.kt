@@ -14,17 +14,6 @@ import org.springframework.stereotype.Service
 class ProjectService(
     val repo: ProjectRepository
 ) {
-    fun getAll(request: PageableRequestModel): Page<ProjectDTO> {
-        val sort = Sort.by("createTime")
-        val pageRequest = PageRequest.of(
-            request.index,
-            request.size,
-            sort.descending()
-        )
-        return repo.findAll(
-            if (request.enableSort) pageRequest.withSort(sort) else pageRequest
-        ).map { ProjectDTO(it) }
-    }
 
     fun getAll(projectAllRequestModel: ProjectAllRequestModel): Page<ProjectDTO> {
         val pageRequest = PageRequest.of(
