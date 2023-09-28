@@ -1,12 +1,14 @@
 package com.anhkiet.cdio4_api.service
 
 import com.anhkiet.cdio4_api.dto.AccountDTO
+import com.anhkiet.cdio4_api.model.UserRequestModel
 import com.anhkiet.cdio4_api.repositories.AccountRepository
 import org.springframework.mail.MailException
 import org.springframework.mail.MailSender
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.security.crypto.bcrypt.BCrypt
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 import java.util.*
 
 @Service
@@ -83,5 +85,19 @@ class AccountService(
             )
         }
         return null
+    }
+
+    fun updateUser(request: UserRequestModel) : AccountDTO? {
+        val lastUser = repo.findByEmail(request.email ?: "") ?: return null
+        lastUser.email = request.email
+        lastUser.avatarUrl = request.avatarUrl
+        lastUser.fullName = request.fullName
+        lastUser.birthday = request.birthday
+        lastUser.phoneNumber = request.phoneNumber
+        lastUser.address = request.address
+        lastUser.description = request.description
+
+
+        return AccountDTO(repo.save(lastUser))
     }
 }

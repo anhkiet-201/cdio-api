@@ -17,6 +17,9 @@ class HouseService(
     val repo: HouseRepository,
     val requestHelper: RequestHelper
 ) {
+    fun createHouse(house: House): House{
+        return repo.save(house)
+    }
     fun getAll(request: PageableRequestModel): Page<HouseDTO> {
         val sort = Sort.by("createTime")
         val pageRequest = PageRequest.of(

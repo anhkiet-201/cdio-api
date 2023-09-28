@@ -15,14 +15,21 @@ class ProjectService(
     val repo: ProjectRepository
 ) {
 
-    fun getAll(projectAllRequestModel: ProjectAllRequestModel): Page<ProjectDTO> {
+    fun getAll(requestModel: PageableRequestModel): Page<ProjectDTO> {
         val pageRequest = PageRequest.of(
-            projectAllRequestModel.index,
-            projectAllRequestModel.size,
+            requestModel.index,
+                requestModel.size,
         )
         return repo.findAll(pageRequest).map { ProjectDTO(it) }
     }
 
+    fun getAll(projectAllRequestModel: ProjectAllRequestModel): Page<ProjectDTO> {
+        val pageRequest = PageRequest.of(
+                projectAllRequestModel.index,
+                projectAllRequestModel.size,
+        )
+        return repo.findAll(pageRequest).map { ProjectDTO(it) }
+    }
     fun getById(id: Int): ProjectDTO? = repo.findById(id).toNullSafe()?.let { ProjectDTO(it) }
 
 //    fun search(searchModel: SearchModel): Page<ProjectDTO> {
