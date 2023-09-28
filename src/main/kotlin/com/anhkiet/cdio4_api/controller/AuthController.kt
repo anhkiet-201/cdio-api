@@ -60,7 +60,8 @@ class AuthController(
                         AccountDTO(
                                 email = payload.email,
                                 password = BCrypt.hashpw(payload.password, BCrypt.gensalt()),
-                                role = "customer"
+                                role = "customer",
+                                fullName = payload.username
                         )
                 )
                 content(
